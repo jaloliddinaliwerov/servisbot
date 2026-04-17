@@ -3,117 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>797 | Level up team</title>
+    <title>797 | SERVIS 2.0</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body {
-            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #0f172a);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: #f8fafc;
-            padding: 24px 16px 40px;
-            min-height: 100vh;
-        }
-
+        body { background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #0f172a); background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: #f8fafc; padding: 20px 16px 100px; min-height: 100vh; overflow-x: hidden; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        .header-title { font-size: 26px; font-weight: 800; text-align: center; margin-bottom: 30px; background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1px; }
+        /* Umumiy Shisha Efektlari va Yumaloqlik */
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 28px; }
+        .glass-btn { border-radius: 100px; /* Maksimal yumaloq */ }
 
-        /* Asosiy hamyon oynasi */
-        .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); padding: 24px; margin-bottom: 24px; position: relative; overflow: hidden; }
-        .wallet-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px; }
+        .header-title { font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 24px; background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; padding-left: 8px; }
+
+        /* Hamyon */
+        .wallet-panel { padding: 24px; margin-bottom: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center; }
+        .wallet-label { font-size: 14px; color: #cbd5e1; margin-bottom: 8px; }
+        .wallet-balance { font-size: 38px; font-weight: 800; margin-bottom: 24px; }
         
-        /* Balans raqami */
-        .wallet-balance { font-size: 34px; font-weight: 800; margin-bottom: 20px; transition: all 0.3s ease; }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff; border: none; padding: 16px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
 
-        .btn-primary { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff; border: none; border-radius: 16px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
-
-        .section-title { font-size: 13px; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1.5px; color: #64748b; }
-
+        /* Xizmatlar Grid */
         .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
-        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
-        .glass-card:active { transform: scale(0.96); background: rgba(255, 255, 255, 0.1); }
-        .card-icon { font-size: 28px; margin-bottom: 12px; color: #60a5fa; }
-        .card-title { font-size: 15px; font-weight: 600; }
+        .service-card { padding: 20px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: 0.2s; border-radius: 24px; }
+        .service-card:active { transform: scale(0.95); background: rgba(255, 255, 255, 0.1); }
+        .s-icon { font-size: 32px; margin-bottom: 12px; }
+        .s-title { font-size: 14px; font-weight: 600; }
 
-        /* Yashirin oynalar uchun */
-        #topup-view { display: none; animation: fadeIn 0.3s ease; }
+        /* Ro'yxat Elementlari (Premium, Stars, Gifts) */
+        .list-item { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; cursor: pointer; border-radius: 24px; transition: 0.2s; }
+        .list-item:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.1); }
+        .list-left { display: flex; align-items: center; gap: 12px; }
+        .item-name { font-size: 16px; font-weight: 700; }
+        .item-old-price { font-size: 12px; color: #94a3b8; text-decoration: line-through; display: block; }
+        .item-price { font-size: 16px; font-weight: 800; color: #60a5fa; text-align: right; }
+
+        /* Segmented Control (Premium uchun) */
+        .segment-control { display: flex; background: rgba(0,0,0,0.3); border-radius: 100px; padding: 4px; margin-bottom: 20px; }
+        .segment-btn { flex: 1; text-align: center; padding: 12px; border-radius: 100px; font-weight: 600; font-size: 14px; color: #94a3b8; transition: 0.3s; }
+        .segment-btn.active { background: #3b82f6; color: #fff; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+
+        /* Pastki Menyu (Bottom Bar) */
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(25px); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; padding: 12px 0 24px; z-index: 100; }
+        .tab-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #64748b; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.3s; width: 60px; }
+        .tab-btn.active { color: #60a5fa; }
+        .tab-btn i { font-size: 24px; }
+
+        /* View Controllers */
+        .view { display: none; animation: fadeIn 0.3s; }
+        .view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* To'lov summalari va turlari */
-        .amount-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 16px 0; text-align: center; font-weight: 700; color: #e2e8f0; cursor: pointer; transition: all 0.2s; }
-        .amount-btn.active { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; color: #60a5fa; }
-
-        .payment-method { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; }
-        .payment-method.active { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
-        .payment-icon { font-size: 28px; }
-        .p-name { font-weight: 700; font-size: 16px; }
-        .p-desc { font-size: 13px; color: #94a3b8; }
+        /* Tarix va Profil */
+        .history-item { padding: 16px; margin-bottom: 10px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .h-date { font-size: 12px; color: #94a3b8; }
+        .h-green { color: #4ade80; font-weight: 700; }
+        .h-red { color: #f87171; font-weight: 700; }
+        
+        .profile-card { text-align: center; padding: 30px 20px; border-radius: 30px; }
+        .avatar { width: 80px; height: 80px; background: linear-gradient(135deg, #60a5fa, #c084fc); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; }
+        .vip-badge { display: inline-block; background: #fbbf24; color: #78350f; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 800; margin-top: 8px; }
+        .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 20px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, #3b82f6, #60a5fa); width: 0%; transition: 1s; }
     </style>
 </head>
 <body>
 
-    <div id="main-view">
-        <div class="header-title">797 | Level up team</div>
+    <div id="view-home" class="view active">
+        <div class="header-title">797 | SERVIS 2.0</div>
         
-        <div class="glass-panel">
-            <div class="wallet-label">Mening Hamyonim</div>
-            <div class="wallet-balance" id="display-balance">Yuklanmoqda...</div>
-            <button class="btn-primary" onclick="openTopUp()">
-                <i class="ph-bold ph-wallet"></i> Hisobni to'ldirish
+        <div class="glass wallet-panel">
+            <div class="wallet-label">Joriy Balans</div>
+            <div class="wallet-balance" id="ui-balance">Yuklanmoqda...</div>
+            <button class="glass-btn btn-primary" onclick="openSubView('topup')">
+                <i class="ph-bold ph-plus-circle"></i> Hisobni to'ldirish
             </button>
         </div>
 
         <div class="section-title">Xizmatlar</div>
         <div class="grid-container">
-            <div class="glass-card" onclick="tg.openTelegramLink('https://t.me/the_797')">
-                <i class="ph-fill ph-star card-icon"></i>
-                <div class="card-title">Telegram Premium</div>
+            <div class="glass service-card" onclick="openSubView('premium')">
+                <i class="ph-fill ph-star s-icon" style="color: #60a5fa;"></i>
+                <div class="s-title">Premium</div>
             </div>
-            <div class="glass-card" onclick="tg.openTelegramLink('https://t.me/the_797')">
-                <i class="ph-fill ph-shooting-star card-icon" style="color: #fbbf24;"></i>
-                <div class="card-title">Telegram Stars</div>
+            <div class="glass service-card" onclick="openSubView('stars')">
+                <i class="ph-fill ph-shooting-star s-icon" style="color: #fbbf24;"></i>
+                <div class="s-title">Stars</div>
             </div>
-            <div class="glass-card" onclick="tg.openTelegramLink('https://t.me/the_797')">
-                <i class="ph-fill ph-gift card-icon" style="color: #f472b6;"></i>
-                <div class="card-title">Telegram Gifts</div>
+            <div class="glass service-card" onclick="openSubView('gifts')">
+                <span class="s-icon">🎁</span>
+                <div class="s-title">Gifts</div>
             </div>
-            <div class="glass-card" onclick="tg.openTelegramLink('https://t.me/the_797')">
-                <i class="ph-fill ph-hexagon card-icon" style="color: #a78bfa;"></i>
-                <div class="card-title">Telegram NFT</div>
+            <div class="glass service-card" onclick="openSubView('nft')">
+                <i class="ph-fill ph-hexagon s-icon" style="color: #a78bfa;"></i>
+                <div class="s-title">NFT</div>
+            </div>
+            <div class="glass service-card" onclick="openSubView('steam')">
+                <i class="ph-fill ph-game-controller s-icon" style="color: #cbd5e1;"></i>
+                <div class="s-title">Steam</div>
             </div>
         </div>
     </div>
 
-    <div id="topup-view">
+    <div id="view-history" class="view">
+        <div class="header-title">Tranzaksiyalar</div>
+        <div id="history-container">
+            </div>
+    </div>
+
+    <div id="view-profile" class="view">
+        <div class="header-title">Mening Profilim</div>
+        <div class="glass profile-card">
+            <div class="avatar" id="ui-avatar">?</div>
+            <div class="item-name" id="ui-name">Mijoz</div>
+            <div id="ui-status-badge" class="wallet-label" style="margin-top: 8px;">Oddiy Mijoz</div>
+            
+            <div style="margin-top: 30px; text-align: left;">
+                <div class="wallet-label" style="display: flex; justify-content: space-between;">
+                    <span>VIP bo'lish uchun:</span>
+                    <span id="ui-spent-text">0 / 500 000 so'm</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="ui-progress"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sub-topup" class="view">
         <div class="header-title">Hisob to'ldirish</div>
+        <div class="section-title">Miqdorni tanlang (UZS)</div>
+        <div class="glass list-item" onclick="selectAction('topup', 'Hisob toldirish', 25000)">
+            <div class="item-name">25 000</div><div class="item-price">Tanlash</div>
+        </div>
+        <div class="glass list-item" onclick="selectAction('topup', 'Hisob toldirish', 50000)">
+            <div class="item-name">50 000</div><div class="item-price">Tanlash</div>
+        </div>
+        <div class="glass list-item" onclick="selectAction('topup', 'Hisob toldirish', 100000)">
+            <div class="item-name">100 000</div><div class="item-price">Tanlash</div>
+        </div>
+        <div class="glass list-item" onclick="selectAction('topup', 'Hisob toldirish', 200000)">
+            <div class="item-name">200 000</div><div class="item-price">Tanlash</div>
+        </div>
+    </div>
+
+    <div id="sub-premium" class="view">
+        <div class="header-title">Telegram Premium</div>
+        <div class="segment-control">
+            <div class="segment-btn active" onclick="switchPrem('account')" id="seg-account">Akkaunt orqali</div>
+            <div class="segment-btn" onclick="switchPrem('gift')" id="seg-gift">Sovg'a sifatida</div>
+        </div>
         
-        <div class="section-title">Miqdorni tanlang</div>
-        <div class="grid-container">
-            <div class="amount-btn" onclick="selectAmount(this, 25000)">25 000</div>
-            <div class="amount-btn" onclick="selectAmount(this, 50000)">50 000</div>
-            <div class="amount-btn" onclick="selectAmount(this, 100000)">100 000</div>
-            <div class="amount-btn" onclick="selectAmount(this, 200000)">200 000</div>
+        <div id="prem-account">
+            <div class="glass list-item" onclick="selectAction('buy', 'Premium 1 Oylik (Akkaunt)', 41990)">
+                <div><div class="item-name">1 Oylik</div><div class="item-old-price">45 000 so'm</div></div>
+                <div class="item-price">41 990 so'm</div>
+            </div>
+            <div class="glass list-item" onclick="selectAction('buy', 'Premium 1 Yillik (Akkaunt)', 269990)">
+                <div><div class="item-name">1 Yillik</div><div class="item-old-price">290 000 so'm</div></div>
+                <div class="item-price">269 990 so'm</div>
+            </div>
         </div>
 
-        <div class="section-title">To'lov usuli</div>
-        <div class="payment-method active" id="pay-uzcard" onclick="selectMethod('uzcard')">
-            <i class="ph-fill ph-credit-card payment-icon" style="color: #60a5fa;"></i>
-            <div>
-                <div class="p-name">Uzcard / Humo</div>
-                <div class="p-desc">Karta orqali</div>
+        <div id="prem-gift" style="display: none;">
+            <div class="glass list-item" onclick="selectAction('buy', 'Premium 3 Oylik (Sovg\'a)', 160000)">
+                <div class="item-name">3 Oylik</div><div class="item-price">160 000 so'm</div>
+            </div>
+            <div class="glass list-item" onclick="selectAction('buy', 'Premium 6 Oylik (Sovg\'a)', 225000)">
+                <div class="item-name">6 Oylik</div><div class="item-price">225 000 so'm</div>
+            </div>
+            <div class="glass list-item" onclick="selectAction('buy', 'Premium 12 Oylik (Sovg\'a)', 370000)">
+                <div class="item-name">1 Yillik</div><div class="item-price">370 000 so'm</div>
             </div>
         </div>
-        <div class="payment-method" id="pay-ton" onclick="selectMethod('ton')">
-            <i class="ph-fill ph-currency-btc payment-icon" style="color: #38bdf8;"></i>
-            <div>
-                <div class="p-name">TON Crypto</div>
-                <div class="p-desc">Kriptovalyuta</div>
-            </div>
+    </div>
+
+    <div id="sub-stars" class="view">
+        <div class="header-title">Telegram Stars</div>
+        <div id="stars-container"></div> </div>
+
+    <div id="sub-gifts" class="view">
+        <div class="header-title">Telegram Gifts</div>
+        <div id="gifts-container"></div> </div>
+
+    <div id="sub-admin-only" class="view">
+        <div class="header-title" id="admin-title">Maxsus Xizmat</div>
+        <div class="glass wallet-panel" style="margin-top: 40px;">
+            <i class="ph-bold ph-info s-icon" style="color: #94a3b8;"></i>
+            <p style="margin-bottom: 24px; line-height: 1.5; color: #e2e8f0;" id="admin-desc"></p>
+            <button class="glass-btn btn-primary" onclick="tg.openTelegramLink('https://t.me/the_797')">
+                Adminga murojaat qilish
+            </button>
+        </div>
+    </div>
+
+    <div class="bottom-bar" id="bottom-bar">
+        <div class="tab-btn active" onclick="switchTab('home')">
+            <i class="ph-fill ph-house"></i><span>Asosiy</span>
+        </div>
+        <div class="tab-btn" onclick="switchTab('history')">
+            <i class="ph-bold ph-receipt"></i><span>Tarix</span>
+        </div>
+        <div class="tab-btn" onclick="switchTab('profile')">
+            <i class="ph-bold ph-user"></i><span>Profil</span>
         </div>
     </div>
 
@@ -121,93 +216,162 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
         
-        // SIZNING RAILWAY SILKANGIZ
+        // ================= SOZLAMALAR =================
         const API_URL = "https://servisbot-production.up.railway.app";
-        const balanceDisplay = document.getElementById('display-balance');
+        let currentUser = { balance: 0, total_spent: 0, history: [] };
+        let selectedItem = null;
 
-        let selectedAmount = 0;
-        let selectedMethod = 'uzcard';
-
-        // 1. Balansni serverdan tortib olish funksiyasi
-        async function fetchUserBalance() {
-            const userId = tg.initDataUnsafe?.user?.id;
-            
-            if (!userId) {
-                balanceDisplay.innerText = "0 so'm";
-                return;
-            }
-
-            try {
-                const response = await fetch(`${API_URL}/api/balance?user_id=${userId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    balanceDisplay.innerText = data.balance.toLocaleString() + " so'm";
-                } else {
-                    balanceDisplay.innerText = "0 so'm";
-                }
-            } catch (error) {
-                console.error("Xatolik:", error);
-                balanceDisplay.innerText = "0 so'm";
-            }
+        // UI Elementlari
+        if(tg.initDataUnsafe?.user) {
+            document.getElementById('ui-avatar').innerText = tg.initDataUnsafe.user.first_name.charAt(0).toUpperCase();
+            document.getElementById('ui-name').innerText = tg.initDataUnsafe.user.first_name;
         }
 
-        // Ilova ochilgan zahoti balansni yuklaymiz
-        fetchUserBalance();
+        // ================= API DAN MA'LUMOT OLISH =================
+        async function fetchUserData() {
+            const userId = tg.initDataUnsafe?.user?.id;
+            if (!userId) { document.getElementById('ui-balance').innerText = "0 so'm"; return; }
 
-        // 2. Oynalarni almashtirish
-        function openTopUp() {
+            try {
+                const res = await fetch(`${API_URL}/api/user?user_id=${userId}`);
+                if (res.ok) {
+                    currentUser = await res.json();
+                    updateUI();
+                }
+            } catch (e) { console.error("API Error", e); }
+        }
+
+        function updateUI() {
+            // Balans
+            document.getElementById('ui-balance').innerText = currentUser.balance.toLocaleString() + " so'm";
+            
+            // Profil VIP Status
+            let spent = currentUser.total_spent;
+            let statusEl = document.getElementById('ui-status-badge');
+            if (spent >= 500000) {
+                statusEl.className = "vip-badge";
+                statusEl.innerText = "👑 VIP Mijoz";
+                document.getElementById('ui-spent-text').innerText = "Siz VIP mijozsiz!";
+                document.getElementById('ui-progress').style.width = "100%";
+            } else {
+                statusEl.className = "wallet-label";
+                statusEl.innerText = "Oddiy Mijoz";
+                document.getElementById('ui-spent-text').innerText = `${spent.toLocaleString()} / 500 000 so'm`;
+                document.getElementById('ui-progress').style.width = `${(spent / 500000) * 100}%`;
+            }
+
+            // Tarix ro'yxati
+            let histHtml = '';
+            if(currentUser.history.length === 0) {
+                histHtml = `<div style="text-align:center; color:#64748b; padding: 20px;">Hozircha tranzaksiyalar yo'q.</div>`;
+            } else {
+                currentUser.history.forEach(tx => {
+                    let isTopup = tx.type === 'topup';
+                    let sign = isTopup ? '+' : '-';
+                    let colorClass = isTopup ? 'h-green' : 'h-red';
+                    histHtml += `
+                    <div class="glass history-item">
+                        <div>
+                            <div class="item-name" style="font-size: 14px;">${tx.name}</div>
+                            <div class="h-date">${tx.date}</div>
+                        </div>
+                        <div class="${colorClass}">${sign} ${tx.amount.toLocaleString()} UZS</div>
+                    </div>`;
+                });
+            }
+            document.getElementById('history-container').innerHTML = histHtml;
+        }
+
+        // ================= KATEGORIYALAR YASASH =================
+        // Stars
+        const starsData = [[50,11000], [75,16500], [100,22000], [150,33000], [200,44000], [250,55000], [500,110000], [1000,220000]];
+        document.getElementById('stars-container').innerHTML = starsData.map(s => `
+            <div class="glass list-item" onclick="selectAction('buy', 'Stars ${s[0]} ta', ${s[1]})">
+                <div class="list-left"><i class="ph-fill ph-shooting-star" style="color:#fbbf24; font-size:24px;"></i><span class="item-name">${s[0]} ta</span></div>
+                <div class="item-price">${s[1].toLocaleString()} so'm</div>
+            </div>`).join('');
+
+        // Gifts
+        const giftsData = [
+            {e:'💝', s:15, p:4000}, {e:'🧸', s:15, p:4000},
+            {e:'🎁', s:25, p:6000}, {e:'🌹', s:25, p:6000},
+            {e:'🎂', s:50, p:13000}, {e:'🚀', s:50, p:13000}, {e:'🍾', s:50, p:13000}, {e:'💐', s:50, p:13000},
+            {e:'💎', s:100, p:22000}, {e:'🏆', s:100, p:22000}, {e:'💍', s:100, p:22000}
+        ];
+        document.getElementById('gifts-container').innerHTML = giftsData.map(g => `
+            <div class="glass list-item" onclick="selectAction('buy', 'Gift ${g.e}', ${g.p})">
+                <div class="list-left"><span style="font-size:24px;">${g.e}</span><span class="item-name">${g.s} Stars</span></div>
+                <div class="item-price">${g.p.toLocaleString()} so'm</div>
+            </div>`).join('');
+
+        // ================= NAVIGATSIYA =================
+        function switchTab(tabId) {
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            document.getElementById('main-view').style.display = 'none';
-            document.getElementById('topup-view').style.display = 'block';
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById('view-' + tabId).classList.add('active');
+            
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            tg.BackButton.hide(); tg.MainButton.hide(); selectedItem = null;
+            document.getElementById('bottom-bar').style.display = 'flex';
+        }
+
+        function openSubView(viewId) {
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById('bottom-bar').style.display = 'none'; // Menyu yashiriladi
+            
+            if(viewId === 'nft' || viewId === 'steam') {
+                document.getElementById('sub-admin-only').classList.add('active');
+                document.getElementById('admin-title').innerText = viewId.toUpperCase();
+                document.getElementById('admin-desc').innerText = viewId === 'nft' ? "NFT lar faqat maxsus buyurtma asosida adminga murojaat qilish orqali sotib olinadi." : "Steam hisobini to'ldirish uchun adminga murojaat qiling va o'z loginingizni taqdim eting.";
+            } else {
+                document.getElementById('sub-' + viewId).classList.add('active');
+            }
             tg.BackButton.show();
         }
 
-        // Orqaga qaytish (qaytganida balansni yana bir marta yangilab qo'yadi)
         tg.BackButton.onClick(() => {
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            document.getElementById('topup-view').style.display = 'none';
-            document.getElementById('main-view').style.display = 'block';
-            tg.BackButton.hide();
-            tg.MainButton.hide();
-            
-            // Holatni tozalash
-            selectedAmount = 0;
-            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
-            
-            // Asosiy menyuga qaytganda balansni yangilash
-            balanceDisplay.innerText = "Yuklanmoqda...";
-            fetchUserBalance();
+            switchTab('home'); // Orqaga doim Asosiyga qaytadi
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
         });
 
-        // 3. To'lov summalarini tanlash
-        function selectAmount(element, amount) {
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            selectedAmount = amount;
-            tg.MainButton.setText(`DAVOM ETISH (${amount.toLocaleString()} UZS)`).show();
-        }
-
-        // 4. To'lov usulini tanlash
-        function selectMethod(method) {
+        function switchPrem(type) {
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            document.querySelectorAll('.payment-method').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`pay-${method}`).classList.add('active');
-            selectedMethod = method;
+            document.getElementById('seg-account').classList.toggle('active', type === 'account');
+            document.getElementById('seg-gift').classList.toggle('active', type === 'gift');
+            document.getElementById('prem-account').style.display = type === 'account' ? 'block' : 'none';
+            document.getElementById('prem-gift').style.display = type === 'gift' ? 'block' : 'none';
+            tg.MainButton.hide(); selectedItem = null;
         }
 
-        // 5. Botga ma'lumot yuborish
-        tg.MainButton.onClick(() => {
-            let dataToSend = {
-                "action": "topup",
-                "amount": selectedAmount,
-                "method": selectedMethod
-            };
-            tg.sendData(JSON.stringify(dataToSend));
+        // ================= HARAKATLAR =================
+        function selectAction(actionType, itemName, price) {
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
+            selectedItem = { action: actionType, name: itemName, price: price };
             
+            let btnText = actionType === 'topup' ? `DAVOM ETISH (${price.toLocaleString()} UZS)` : `SOTIB OLISH (${price.toLocaleString()} UZS)`;
+            tg.MainButton.setText(btnText).show();
+        }
+
+        tg.MainButton.onClick(() => {
+            if(!selectedItem) return;
+
+            // Xarid tekshiruvi Web App da (Tezkor reaksiya uchun)
+            if (selectedItem.action === 'buy' && currentUser.balance < selectedItem.price) {
+                tg.showAlert("❌ Balansingizda mablag' yetarli emas! Iltimos hisobingizni to'ldiring.");
+                return;
+            }
+
+            // Python botga yuborish
+            tg.sendData(JSON.stringify(selectedItem));
             tg.MainButton.showProgress();
             setTimeout(() => tg.close(), 500);
         });
+
+        // Boshlanishida ma'lumotni yuklash
+        fetchUserData();
     </script>
 </body>
 </html>
