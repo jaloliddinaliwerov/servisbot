@@ -172,5 +172,43 @@ async def main():
     while True:
         await asyncio.sleep(3600)
 
+# ================= 5. API VA SERVER YARATISH (Railway) =================
+# Web App balansni bilishi uchun API darcha
+async def get_balance(request):
+    try:
+        user_id = int(request.query.get('user_id', 0))
+        balance = users_db.get(user_id, 0)
+    except:
+        balance = 0
+        
+    # Vercel'dan keladigan so'rovlarga ruxsat berish (CORS)
+    headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET",
+    }
+    return web.json_response({"balance": balance}, headers=headers)
+
+async def handle_ping(request):
+    return web.Response(text="797 Bot Serveri ishlamoqda!")
+
+async def main():
+    asyncio.create_task(dp.start_polling(bot))
+    
+    app = web.Application()
+    app.router.add_get('/', handle_ping)
+    app.router.add_get('/api/balance', get_balance) # YAngi API manzil qo'shildi
+    
+    runner = web.AppRunner(app)
+    await runner.setup()
+    
+    port = int(os.environ.get("PORT", 8080))
+    site = web.TCPSite(runner, '0.0.0.0', port)
+    await site.start()
+    
+    print(f"Bot ishga tushdi (Port: {port})")
+    
+    while True:
+        await asyncio.sleep(3600)
+
 if __name__ == "__main__":
     asyncio.run(main())
