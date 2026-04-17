@@ -14,7 +14,7 @@
 
         /* Umumiy Shisha Efektlari va Yumaloqlik */
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 28px; }
-        .glass-btn { border-radius: 100px; /* Maksimal yumaloq */ }
+        .glass-btn { border-radius: 100px; }
 
         .header-title { font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 24px; background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .section-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; padding-left: 8px; }
@@ -33,7 +33,7 @@
         .s-icon { font-size: 32px; margin-bottom: 12px; }
         .s-title { font-size: 14px; font-weight: 600; }
 
-        /* Ro'yxat Elementlari (Premium, Stars, Gifts) */
+        /* Ro'yxat Elementlari */
         .list-item { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; cursor: pointer; border-radius: 24px; transition: 0.2s; }
         .list-item:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.1); }
         .list-left { display: flex; align-items: center; gap: 12px; }
@@ -46,7 +46,7 @@
         .segment-btn { flex: 1; text-align: center; padding: 12px; border-radius: 100px; font-weight: 600; font-size: 14px; color: #94a3b8; transition: 0.3s; }
         .segment-btn.active { background: #3b82f6; color: #fff; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
 
-        /* Pastki Menyu (Bottom Bar) */
+        /* Pastki Menyu */
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(25px); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; padding: 12px 0 24px; z-index: 100; }
         .tab-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #64748b; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.3s; width: 60px; }
         .tab-btn.active { color: #60a5fa; }
@@ -110,8 +110,7 @@
 
     <div id="view-history" class="view">
         <div class="header-title">Tranzaksiyalar</div>
-        <div id="history-container">
-            </div>
+        <div id="history-container"></div>
     </div>
 
     <div id="view-profile" class="view">
@@ -183,11 +182,34 @@
 
     <div id="sub-stars" class="view">
         <div class="header-title">Telegram Stars</div>
-        <div id="stars-container"></div> </div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Stars 50 ta', 11000)"><div class="list-left"><i class="ph-fill ph-shooting-star" style="color:#fbbf24; font-size:24px;"></i><span class="item-name">50 ta</span></div><div class="item-price">11 000 so'm</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Stars 75 ta', 16500)"><div class="list-left"><i class="ph-fill ph-shooting-star" style="color:#fbbf24; font-size:24px;"></i><span class="item-name">75 ta</span></div><div class="item-price">16 500 so'm</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Stars 100 ta', 22000)"><div class="list-left"><i class="ph-fill ph-shooting-star" style="color:#fbbf24; font-size:24px;"></i><span class="item-name">100 ta</span></div><div class="item-price">22 000 so'm</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Stars 150 ta', 33000)"><div class="list-left"><i class="ph-fill ph-shooting-star" style="color:#fbbf24; font-size:24px;"></i><span class="item-name">150 ta</span></div><div class="item-price">33 000 so'm</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Stars 200 ta', 44000)"><div class="list-left"><i class="ph-fill ph-shooting-star" style="color:#fbbf24; font-size:24px;"></i><span class="item-name">200 ta</span></div><div class="item-price">44 000 so'm</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Stars 250 ta', 55000)"><div class="list-left"><i class="ph-fill ph-shooting-star" style="color:#fbbf24; font-size:24px;"></i><span class="item-name">250 ta</span></div><div class="item-price">55 000 so'm</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Stars 500 ta', 110000)"><div class="list-left"><i class="ph-fill ph-shooting-star" style="color:#fbbf24; font-size:24px;"></i><span class="item-name">500 ta</span></div><div class="item-price">110 000 so'm</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Stars 1000 ta', 220000)"><div class="list-left"><i class="ph-fill ph-shooting-star" style="color:#fbbf24; font-size:24px;"></i><span class="item-name">1000 ta</span></div><div class="item-price">220 000 so'm</div></div>
+    </div>
 
     <div id="sub-gifts" class="view">
         <div class="header-title">Telegram Gifts</div>
-        <div id="gifts-container"></div> </div>
+        
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 💝 15 Stars', 4000)"><div class="list-left"><span style="font-size:24px;">💝</span><span class="item-name">15 Stars</span></div><div class="item-price">4 000 uzs</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 🧸 15 Stars', 4000)"><div class="list-left"><span style="font-size:24px;">🧸</span><span class="item-name">15 Stars</span></div><div class="item-price">4 000 uzs</div></div>
+        
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 🎁 25 Stars', 6000)"><div class="list-left"><span style="font-size:24px;">🎁</span><span class="item-name">25 Stars</span></div><div class="item-price">6 000 uzs</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 🌹 25 Stars', 6000)"><div class="list-left"><span style="font-size:24px;">🌹</span><span class="item-name">25 Stars</span></div><div class="item-price">6 000 uzs</div></div>
+        
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 🎂 50 Stars', 13000)"><div class="list-left"><span style="font-size:24px;">🎂</span><span class="item-name">50 Stars</span></div><div class="item-price">13 000 uzs</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 🚀 50 Stars', 13000)"><div class="list-left"><span style="font-size:24px;">🚀</span><span class="item-name">50 Stars</span></div><div class="item-price">13 000 uzs</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 🍾 50 Stars', 13000)"><div class="list-left"><span style="font-size:24px;">🍾</span><span class="item-name">50 Stars</span></div><div class="item-price">13 000 uzs</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 💐 50 Stars', 13000)"><div class="list-left"><span style="font-size:24px;">💐</span><span class="item-name">50 Stars</span></div><div class="item-price">13 000 uzs</div></div>
+        
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 💎 100 Stars', 22000)"><div class="list-left"><span style="font-size:24px;">💎</span><span class="item-name">100 Stars</span></div><div class="item-price">22 000 uzs</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 🏆 100 Stars', 22000)"><div class="list-left"><span style="font-size:24px;">🏆</span><span class="item-name">100 Stars</span></div><div class="item-price">22 000 uzs</div></div>
+        <div class="glass list-item" onclick="selectAction('buy', 'Gift 💍 100 Stars', 22000)"><div class="list-left"><span style="font-size:24px;">💍</span><span class="item-name">100 Stars</span></div><div class="item-price">22 000 uzs</div></div>
+    </div>
 
     <div id="sub-admin-only" class="view">
         <div class="header-title" id="admin-title">Maxsus Xizmat</div>
@@ -216,51 +238,40 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
         
-        // ================= SOZLAMALAR =================
+        // SIZNING RAILWAY SILKANGIZ (MUHIM!)
         const API_URL = "https://servisbot-production.up.railway.app";
         let currentUser = { balance: 0, total_spent: 0, history: [] };
         let selectedItem = null;
 
-        // UI Elementlari
         if(tg.initDataUnsafe?.user) {
             document.getElementById('ui-avatar').innerText = tg.initDataUnsafe.user.first_name.charAt(0).toUpperCase();
             document.getElementById('ui-name').innerText = tg.initDataUnsafe.user.first_name;
         }
 
-        // ================= API DAN MA'LUMOT OLISH =================
         async function fetchUserData() {
             const userId = tg.initDataUnsafe?.user?.id;
             if (!userId) { document.getElementById('ui-balance').innerText = "0 so'm"; return; }
-
             try {
                 const res = await fetch(`${API_URL}/api/user?user_id=${userId}`);
-                if (res.ok) {
-                    currentUser = await res.json();
-                    updateUI();
-                }
+                if (res.ok) { currentUser = await res.json(); updateUI(); }
             } catch (e) { console.error("API Error", e); }
         }
 
         function updateUI() {
-            // Balans
             document.getElementById('ui-balance').innerText = currentUser.balance.toLocaleString() + " so'm";
             
-            // Profil VIP Status
             let spent = currentUser.total_spent;
             let statusEl = document.getElementById('ui-status-badge');
             if (spent >= 500000) {
-                statusEl.className = "vip-badge";
-                statusEl.innerText = "👑 VIP Mijoz";
+                statusEl.className = "vip-badge"; statusEl.innerText = "👑 VIP Mijoz";
                 document.getElementById('ui-spent-text').innerText = "Siz VIP mijozsiz!";
                 document.getElementById('ui-progress').style.width = "100%";
             } else {
-                statusEl.className = "wallet-label";
-                statusEl.innerText = "Oddiy Mijoz";
+                statusEl.className = "wallet-label"; statusEl.innerText = "Oddiy Mijoz";
                 document.getElementById('ui-spent-text').innerText = `${spent.toLocaleString()} / 500 000 so'm`;
                 document.getElementById('ui-progress').style.width = `${(spent / 500000) * 100}%`;
             }
 
-            // Tarix ro'yxati
             let histHtml = '';
             if(currentUser.history.length === 0) {
                 histHtml = `<div style="text-align:center; color:#64748b; padding: 20px;">Hozircha tranzaksiyalar yo'q.</div>`;
@@ -269,42 +280,12 @@
                     let isTopup = tx.type === 'topup';
                     let sign = isTopup ? '+' : '-';
                     let colorClass = isTopup ? 'h-green' : 'h-red';
-                    histHtml += `
-                    <div class="glass history-item">
-                        <div>
-                            <div class="item-name" style="font-size: 14px;">${tx.name}</div>
-                            <div class="h-date">${tx.date}</div>
-                        </div>
-                        <div class="${colorClass}">${sign} ${tx.amount.toLocaleString()} UZS</div>
-                    </div>`;
+                    histHtml += `<div class="glass history-item"><div><div class="item-name" style="font-size: 14px;">${tx.name}</div><div class="h-date">${tx.date}</div></div><div class="${colorClass}">${sign} ${tx.amount.toLocaleString()} UZS</div></div>`;
                 });
             }
             document.getElementById('history-container').innerHTML = histHtml;
         }
 
-        // ================= KATEGORIYALAR YASASH =================
-        // Stars
-        const starsData = [[50,11000], [75,16500], [100,22000], [150,33000], [200,44000], [250,55000], [500,110000], [1000,220000]];
-        document.getElementById('stars-container').innerHTML = starsData.map(s => `
-            <div class="glass list-item" onclick="selectAction('buy', 'Stars ${s[0]} ta', ${s[1]})">
-                <div class="list-left"><i class="ph-fill ph-shooting-star" style="color:#fbbf24; font-size:24px;"></i><span class="item-name">${s[0]} ta</span></div>
-                <div class="item-price">${s[1].toLocaleString()} so'm</div>
-            </div>`).join('');
-
-        // Gifts
-        const giftsData = [
-            {e:'💝', s:15, p:4000}, {e:'🧸', s:15, p:4000},
-            {e:'🎁', s:25, p:6000}, {e:'🌹', s:25, p:6000},
-            {e:'🎂', s:50, p:13000}, {e:'🚀', s:50, p:13000}, {e:'🍾', s:50, p:13000}, {e:'💐', s:50, p:13000},
-            {e:'💎', s:100, p:22000}, {e:'🏆', s:100, p:22000}, {e:'💍', s:100, p:22000}
-        ];
-        document.getElementById('gifts-container').innerHTML = giftsData.map(g => `
-            <div class="glass list-item" onclick="selectAction('buy', 'Gift ${g.e}', ${g.p})">
-                <div class="list-left"><span style="font-size:24px;">${g.e}</span><span class="item-name">${g.s} Stars</span></div>
-                <div class="item-price">${g.p.toLocaleString()} so'm</div>
-            </div>`).join('');
-
-        // ================= NAVIGATSIYA =================
         function switchTab(tabId) {
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -320,20 +301,18 @@
         function openSubView(viewId) {
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById('bottom-bar').style.display = 'none'; // Menyu yashiriladi
+            document.getElementById('bottom-bar').style.display = 'none';
             
             if(viewId === 'nft' || viewId === 'steam') {
                 document.getElementById('sub-admin-only').classList.add('active');
                 document.getElementById('admin-title').innerText = viewId.toUpperCase();
-                document.getElementById('admin-desc').innerText = viewId === 'nft' ? "NFT lar faqat maxsus buyurtma asosida adminga murojaat qilish orqali sotib olinadi." : "Steam hisobini to'ldirish uchun adminga murojaat qiling va o'z loginingizni taqdim eting.";
-            } else {
-                document.getElementById('sub-' + viewId).classList.add('active');
-            }
+                document.getElementById('admin-desc').innerText = viewId === 'nft' ? "NFT lar faqat admin orqali sotib olinadi." : "Steam balans to'ldirish uchun adminga murojaat qiling.";
+            } else { document.getElementById('sub-' + viewId).classList.add('active'); }
             tg.BackButton.show();
         }
 
         tg.BackButton.onClick(() => {
-            switchTab('home'); // Orqaga doim Asosiyga qaytadi
+            switchTab('home');
             document.querySelectorAll('.tab-btn')[0].classList.add('active');
         });
 
@@ -346,31 +325,24 @@
             tg.MainButton.hide(); selectedItem = null;
         }
 
-        // ================= HARAKATLAR =================
         function selectAction(actionType, itemName, price) {
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
             selectedItem = { action: actionType, name: itemName, price: price };
-            
             let btnText = actionType === 'topup' ? `DAVOM ETISH (${price.toLocaleString()} UZS)` : `SOTIB OLISH (${price.toLocaleString()} UZS)`;
             tg.MainButton.setText(btnText).show();
         }
 
         tg.MainButton.onClick(() => {
             if(!selectedItem) return;
-
-            // Xarid tekshiruvi Web App da (Tezkor reaksiya uchun)
             if (selectedItem.action === 'buy' && currentUser.balance < selectedItem.price) {
                 tg.showAlert("❌ Balansingizda mablag' yetarli emas! Iltimos hisobingizni to'ldiring.");
                 return;
             }
-
-            // Python botga yuborish
             tg.sendData(JSON.stringify(selectedItem));
             tg.MainButton.showProgress();
             setTimeout(() => tg.close(), 500);
         });
 
-        // Boshlanishida ma'lumotni yuklash
         fetchUserData();
     </script>
 </body>
