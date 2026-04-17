@@ -12,7 +12,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
 BOT_TOKEN = os.getenv("BOT_TOKEN") 
 ADMIN_ID = os.getenv("ADMIN_ID") # Railwayda kiritishingiz shart
 
-WEB_APP_URL = "https://sizning-saytingiz.vercel.app" # O'zingizning Vercel silkangizni qo'ying!
+WEB_APP_URL = "https://servisbot.vercel.app" # O'zingizning Vercel silkangizni qo'ying!
 
 KARTA_RAQAM = "5614 6822 1669 5272"
 TON_HAMYON = "UQAAEnSurEdRWqgtIpzQTdgHIbF22yGCqaFD31g1Q-pUOevk"
