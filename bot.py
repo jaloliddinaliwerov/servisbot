@@ -38,7 +38,7 @@ async def cmd_start(message: types.Message):
     # Web App tugmasini yaratish
     web_app_btn = KeyboardButton(
         text="📱 Ilovani ochish", 
-        web_app=WebAppInfo(url="https://sizning-saytingiz.uz/webapp.html") # HTML faylingiz manzili
+        web_app=WebAppInfo(url="https://servisbot.vercel.app/") # HTML faylingiz manzili
     )
     keyboard = ReplyKeyboardMarkup(keyboard=[[web_app_btn]], resize_keyboard=True)
 
