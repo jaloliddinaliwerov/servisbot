@@ -232,10 +232,34 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
+        // MUHIM: Bu yerga Railway sizga bergan ssilkani qo'ying! (Oxirida / belgisi bo'lmasin)
+        const BOT_API_URL = "https://servisbot-production.up.railway.app/"; 
+
+        // Balansni ekranda ko'rsatish funksiyasi
+        async function loadUserBalance() {
+            // Telegramdan foydalanuvchining ID raqamini olamiz
+            const userId = tg.initDataUnsafe?.user?.id;
+            if (!userId) return;
+
+            try {
+                // Railway serveridan balansni so'raymiz
+                let response = await fetch(`${BOT_API_URL}/api/balance?user_id=${userId}`);
+                let data = await response.json();
+                
+                // HTML dagi 0 so'm yozuvini haqiqiy pulga almashtiramiz
+                document.querySelector('.wallet-balance').innerText = data.balance.toLocaleString() + " so'm";
+            } catch (error) {
+                console.log("Balansni yuklashda xatolik:", error);
+            }
+        }
+
+        // Ilova ochilishi bilan shu funksiya ishga tushadi
+        loadUserBalance();
+
+        /* ================= OLDINGI MANTIQ (Tugmalar uchun) ================= */
         let selectedAmount = 0;
         let selectedMethod = 'uzcard';
 
-        // Oynani o'zgartirish
         function openTopUp() {
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
             document.getElementById('main-view').style.display = 'none';
@@ -243,17 +267,17 @@
             tg.BackButton.show();
         }
 
-        // Orqaga qaytish
         tg.BackButton.onClick(() => {
             document.getElementById('topup-view').style.display = 'none';
             document.getElementById('main-view').style.display = 'block';
             tg.BackButton.hide();
             tg.MainButton.hide();
-            selectedAmount = 0; // reset
+            selectedAmount = 0;
             document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
+            // Orqaga qaytganda balansni yana bir marta yangilab qo'yamiz
+            loadUserBalance(); 
         });
 
-        // Summa tanlash
         function selectAmount(element, amount) {
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
             document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
@@ -262,7 +286,6 @@
             tg.MainButton.setText(`DAVOM ETISH (${amount.toLocaleString()} UZS)`).show();
         }
 
-        // Metod tanlash
         function selectMethod(method) {
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
             document.querySelectorAll('.payment-method').forEach(btn => btn.classList.remove('active'));
@@ -270,22 +293,15 @@
             selectedMethod = method;
         }
 
-        // Asosiy tugma bosilganda PYTHON ga ma'lumot jo'natish
         tg.MainButton.onClick(() => {
-            // Yuborilayotgan JSON obyekti (Python shuni kutadi)
             let dataToSend = {
                 "action": "topup",
                 "amount": selectedAmount,
                 "method": selectedMethod
             };
-            
             tg.sendData(JSON.stringify(dataToSend));
-            
-            // UX uchun yopishdan oldin yuklanish animatsiyasi
             tg.MainButton.showProgress(); 
-            setTimeout(() => {
-                tg.close();
-            }, 500);
+            setTimeout(() => { tg.close(); }, 500);
         });
     </script>
 </body>
