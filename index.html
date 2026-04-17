@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>797 | Level up team</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --bg-light: #F0F5FA; 
+            --bg-dark: #D4E2F0;
+            --text-main: #1A365D; 
+            --glass-bg: rgba(255, 255, 255, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-shadow: rgba(26, 54, 93, 0.08);
+            --accent-blue: #007AFF;
+            --danger-red: #FF3B30;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-dark) 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            padding: 20px 20px 40px;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Hamyon (Wallet) Qismi */
+        .wallet-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px var(--glass-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wallet-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wallet-title {
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .wallet-balance {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .topup-btn {
+            background: var(--text-main);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Bo'limlar sarlavhasi */
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        /* Grid va Kartochkalar */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px var(--glass-shadow);
+            cursor: pointer;
+        }
+
+        .card-icon {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: var(--accent-blue);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        /* Ichki Menyu & Kiritish maydonlari (Inputs) */
+        #sub-menu-view { display: none; }
+
+        .apple-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            font-size: 16px;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            outline: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+        }
+
+        .apple-input:focus {
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .list-item {
+            background: var(--glass-bg);
+            border-radius: 16px;
+            border: 2px solid transparent;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .list-item.selected {
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .item-info { display: flex; flex-direction: column; }
+        .item-name { font-size: 16px; font-weight: 600; }
+        .item-price {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            background: var(--accent-blue);
+            padding: 6px 14px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-menu-view">
+        
+        <div class="wallet-card">
+            <div class="wallet-info">
+                <div class="wallet-title">Mening Hamyonim</div>
+                <div class="wallet-balance" id="user-balance">0 so'm</div>
+            </div>
+            <button class="topup-btn" onclick="openTopUp()">
+                <i class="ph-bold ph-plus"></i> To'ldirish
+            </button>
+        </div>
+
+        <div class="section-title">Telegram Xizmatlari</div>
+        <div class="grid-container">
+            <div class="glass-card" onclick="openSubMenu('premium')">
+                <i class="ph-fill ph-star card-icon"></i>
+                <div class="card-title">Telegram Premium</div>
+            </div>
+            <div class="glass-card" onclick="openSubMenu('stars')">
+                <i class="ph-fill ph-shooting-star card-icon"></i>
+                <div class="card-title">Telegram Stars</div>
+            </div>
+            <div class="glass-card" onclick="tg.openTelegramLink('https://t.me/the_797')">
+                <i class="ph-fill ph-gift card-icon"></i>
+                <div class="card-title">Telegram Gifts</div>
+            </div>
+        </div>
+
+        <div class="section-title">O'yinlar</div>
+        <div class="grid-container">
+            <div class="glass-card" onclick="openSubMenu('pubg')">
+                <i class="ph-fill ph-crosshair card-icon"></i>
+                <div class="card-title">PUBG Mobile</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sub-menu-view">
+        <div class="section-title" id="sub-menu-title">Bo'lim</div>
+        
+        <input type="text" id="user-data-input" class="apple-input" style="display: none;" oninput="checkInput()">
+
+        <div id="sub-menu-items"></div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        const dataLists = {
+            premium: [
+                { id: "prem_1m", name: "1 Oylik premium", price: "41 990 so'm" },
+                { id: "prem_1y", name: "1 Yillik premium", price: "289 990 so'm" }
+            ],
+            pubg: [
+                { id: "pubg_60", name: "60 UC", price: "Xarid qilish" }
+            ]
+        };
+
+        const mainMenuView = document.getElementById('main-menu-view');
+        const subMenuView = document.getElementById('sub-menu-view');
+        const inputField = document.getElementById('user-data-input');
+        const subMenuItems = document.getElementById('sub-menu-items');
+        let selectedItemId = null;
+
+        // Hamyonni to'ldirish bosilganda
+        function openTopUp() {
+            // Backend'ga so'rov ketadi, bot orqali Uzcard/TON to'lov menyusi ochiladi
+            tg.sendData(JSON.stringify({ action: "topup_request" }));
+            tg.close();
+        }
+
+        function openSubMenu(category) {
+            tg.MainButton.hide();
+            inputField.value = '';
+            selectedItemId = null;
+            
+            if (category === 'pubg') {
+                inputField.style.display = 'block';
+                inputField.placeholder = "O'yinchi ID raqamini kiriting...";
+                renderList(dataLists.pubg);
+            } else if (category === 'premium') {
+                inputField.style.display = 'block';
+                inputField.placeholder = "Sovg'a uchun @username (ixtiyoriy)";
+                renderList(dataLists.premium);
+            }
+
+            mainMenuView.style.display = 'none';
+            subMenuView.style.display = 'block';
+            tg.BackButton.show();
+        }
+
+        function renderList(items) {
+            subMenuItems.innerHTML = '';
+            items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'list-item';
+                div.onclick = () => selectItem(div, item.id);
+                div.innerHTML = `
+                    <div class="item-info"><div class="item-name">${item.name}</div></div>
+                    <div class="item-price">${item.price}</div>
+                `;
+                subMenuItems.appendChild(div);
+            });
+        }
+
+        function selectItem(element, itemId) {
+            document.querySelectorAll('.list-item').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedItemId = itemId;
+            checkInput(); // Tugmani ko'rsatishni tekshirish
+        }
+
+        function checkInput() {
+            // Agar paket tanlangan bo'lsa va (ID kiritilgan bo'lsa yoki ixtiyoriy bo'lsa), SOTIB OLISH chiqadi
+            if (selectedItemId) {
+                tg.MainButton.setText("SOTIB OLISH").show();
+            }
+        }
+
+        tg.MainButton.onClick(() => {
+            const userData = inputField.value;
+            // Botga tanlangan paket va ID/Username'ni yuborish
+            tg.sendData(JSON.stringify({
+                action: "buy_item",
+                item_id: selectedItemId,
+                user_input: userData
+            }));
+            tg.close(); // Ilova yopiladi va bot orqali xarid davom etadi
+        });
+
+        tg.BackButton.onClick(() => {
+            subMenuView.style.display = 'none';
+            mainMenuView.style.display = 'block';
+            tg.BackButton.hide();
+            tg.MainButton.hide();
+        });
+    </script>
+</body>
+</html>
