@@ -6,6 +6,7 @@
     <title>797 | Level up team</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; -webkit-tap-highlight-color: transparent; }
         
@@ -22,10 +23,12 @@
 
         .header-title { font-size: 26px; font-weight: 800; text-align: center; margin-bottom: 30px; background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1px; }
 
-        /* Glassmorphism Panel */
+        /* Asosiy hamyon oynasi */
         .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); padding: 24px; margin-bottom: 24px; position: relative; overflow: hidden; }
         .wallet-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px; }
-        .wallet-balance { font-size: 34px; font-weight: 800; margin-bottom: 20px; }
+        
+        /* Balans raqami */
+        .wallet-balance { font-size: 34px; font-weight: 800; margin-bottom: 20px; transition: all 0.3s ease; }
 
         .btn-primary { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff; border: none; border-radius: 16px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
 
@@ -37,13 +40,19 @@
         .card-icon { font-size: 28px; margin-bottom: 12px; color: #60a5fa; }
         .card-title { font-size: 15px; font-weight: 600; }
 
-        /* Sub-menu View */
-        #topup-view, #sub-menu-view { display: none; animation: fadeIn 0.3s ease; }
+        /* Yashirin oynalar uchun */
+        #topup-view { display: none; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .list-item { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; padding: 16px 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .list-item.active { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
-        .item-price { font-weight: 700; color: #60a5fa; }
+        /* To'lov summalari va turlari */
+        .amount-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 16px 0; text-align: center; font-weight: 700; color: #e2e8f0; cursor: pointer; transition: all 0.2s; }
+        .amount-btn.active { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; color: #60a5fa; }
+
+        .payment-method { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; }
+        .payment-method.active { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
+        .payment-icon { font-size: 28px; }
+        .p-name { font-weight: 700; font-size: 16px; }
+        .p-desc { font-size: 13px; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -53,96 +62,151 @@
         
         <div class="glass-panel">
             <div class="wallet-label">Mening Hamyonim</div>
-            <div class="wallet-balance" id="display-balance">0 so'm</div>
-            <button class="btn-primary" onclick="openView('topup')">
-                <i class="ph-bold ph-plus-circle"></i> Hisobni to'ldirish
+            <div class="wallet-balance" id="display-balance">Yuklanmoqda...</div>
+            <button class="btn-primary" onclick="openTopUp()">
+                <i class="ph-bold ph-wallet"></i> Hisobni to'ldirish
             </button>
         </div>
 
         <div class="section-title">Xizmatlar</div>
         <div class="grid-container">
-            <div class="glass-card" onclick="openView('premium')">
+            <div class="glass-card" onclick="tg.openTelegramLink('https://t.me/the_797')">
                 <i class="ph-fill ph-star card-icon"></i>
-                <div class="card-title">Premium</div>
+                <div class="card-title">Telegram Premium</div>
             </div>
-            <div class="glass-card" onclick="openView('stars')">
+            <div class="glass-card" onclick="tg.openTelegramLink('https://t.me/the_797')">
                 <i class="ph-fill ph-shooting-star card-icon" style="color: #fbbf24;"></i>
-                <div class="card-title">Stars</div>
+                <div class="card-title">Telegram Stars</div>
             </div>
             <div class="glass-card" onclick="tg.openTelegramLink('https://t.me/the_797')">
                 <i class="ph-fill ph-gift card-icon" style="color: #f472b6;"></i>
-                <div class="card-title">Gifts</div>
+                <div class="card-title">Telegram Gifts</div>
             </div>
             <div class="glass-card" onclick="tg.openTelegramLink('https://t.me/the_797')">
                 <i class="ph-fill ph-hexagon card-icon" style="color: #a78bfa;"></i>
-                <div class="card-title">NFT</div>
+                <div class="card-title">Telegram NFT</div>
             </div>
         </div>
     </div>
 
     <div id="topup-view">
-        <div class="header-title">Hisob To'ldirish</div>
+        <div class="header-title">Hisob to'ldirish</div>
+        
         <div class="section-title">Miqdorni tanlang</div>
-        <div class="grid-container" id="amount-list"></div>
+        <div class="grid-container">
+            <div class="amount-btn" onclick="selectAmount(this, 25000)">25 000</div>
+            <div class="amount-btn" onclick="selectAmount(this, 50000)">50 000</div>
+            <div class="amount-btn" onclick="selectAmount(this, 100000)">100 000</div>
+            <div class="amount-btn" onclick="selectAmount(this, 200000)">200 000</div>
+        </div>
+
+        <div class="section-title">To'lov usuli</div>
+        <div class="payment-method active" id="pay-uzcard" onclick="selectMethod('uzcard')">
+            <i class="ph-fill ph-credit-card payment-icon" style="color: #60a5fa;"></i>
+            <div>
+                <div class="p-name">Uzcard / Humo</div>
+                <div class="p-desc">Karta orqali</div>
+            </div>
+        </div>
+        <div class="payment-method" id="pay-ton" onclick="selectMethod('ton')">
+            <i class="ph-fill ph-currency-btc payment-icon" style="color: #38bdf8;"></i>
+            <div>
+                <div class="p-name">TON Crypto</div>
+                <div class="p-desc">Kriptovalyuta</div>
+            </div>
+        </div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
+        
+        // SIZNING RAILWAY SILKANGIZ
         const API_URL = "https://servisbot-production.up.railway.app";
-        let selectedData = null;
+        const balanceDisplay = document.getElementById('display-balance');
 
-        // Balansni yuklash
-        async function loadBalance() {
+        let selectedAmount = 0;
+        let selectedMethod = 'uzcard';
+
+        // 1. Balansni serverdan tortib olish funksiyasi
+        async function fetchUserBalance() {
             const userId = tg.initDataUnsafe?.user?.id;
-            if (!userId) return;
-            try {
-                const res = await fetch(`${API_URL}/api/balance?user_id=${userId}`);
-                const data = await res.json();
-                document.getElementById('display-balance').innerText = data.balance.toLocaleString() + " so'm";
-            } catch (e) { console.error(e); }
-        }
-        loadBalance();
+            
+            if (!userId) {
+                balanceDisplay.innerText = "0 so'm";
+                return;
+            }
 
-        function openView(view) {
+            try {
+                const response = await fetch(`${API_URL}/api/balance?user_id=${userId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    balanceDisplay.innerText = data.balance.toLocaleString() + " so'm";
+                } else {
+                    balanceDisplay.innerText = "0 so'm";
+                }
+            } catch (error) {
+                console.error("Xatolik:", error);
+                balanceDisplay.innerText = "0 so'm";
+            }
+        }
+
+        // Ilova ochilgan zahoti balansni yuklaymiz
+        fetchUserBalance();
+
+        // 2. Oynalarni almashtirish
+        function openTopUp() {
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
             document.getElementById('main-view').style.display = 'none';
-            document.getElementById(view + '-view').style.display = 'block';
+            document.getElementById('topup-view').style.display = 'block';
             tg.BackButton.show();
-            
-            if(view === 'topup') renderTopup();
         }
 
-        function renderTopup() {
-            const amounts = [25000, 50000, 100000, 200000];
-            const container = document.getElementById('amount-list');
-            container.innerHTML = amounts.map(amt => `
-                <div class="glass-card" onclick="selectItem(this, 'topup', ${amt})">
-                    <i class="ph-bold ph-wallet card-icon"></i>
-                    <div class="card-title">${amt.toLocaleString()}</div>
-                </div>
-            `).join('');
-        }
-
-        function selectItem(el, action, val) {
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-            document.querySelectorAll('.glass-card').forEach(c => c.style.borderColor = 'rgba(255,255,255,0.1)');
-            el.style.borderColor = '#3b82f6';
-            selectedData = { action, amount: val, method: 'uzcard' };
-            tg.MainButton.setText(`SOTIB OLISH (${val.toLocaleString()} so'm)`).show();
-        }
-
-        tg.MainButton.onClick(() => {
-            tg.sendData(JSON.stringify(selectedData));
-            tg.MainButton.showProgress();
-            setTimeout(() => tg.close(), 600);
-        });
-
+        // Orqaga qaytish (qaytganida balansni yana bir marta yangilab qo'yadi)
         tg.BackButton.onClick(() => {
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
             document.getElementById('topup-view').style.display = 'none';
             document.getElementById('main-view').style.display = 'block';
             tg.BackButton.hide();
             tg.MainButton.hide();
+            
+            // Holatni tozalash
+            selectedAmount = 0;
+            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Asosiy menyuga qaytganda balansni yangilash
+            balanceDisplay.innerText = "Yuklanmoqda...";
+            fetchUserBalance();
+        });
+
+        // 3. To'lov summalarini tanlash
+        function selectAmount(element, amount) {
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            selectedAmount = amount;
+            tg.MainButton.setText(`DAVOM ETISH (${amount.toLocaleString()} UZS)`).show();
+        }
+
+        // 4. To'lov usulini tanlash
+        function selectMethod(method) {
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+            document.querySelectorAll('.payment-method').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`pay-${method}`).classList.add('active');
+            selectedMethod = method;
+        }
+
+        // 5. Botga ma'lumot yuborish
+        tg.MainButton.onClick(() => {
+            let dataToSend = {
+                "action": "topup",
+                "amount": selectedAmount,
+                "method": selectedMethod
+            };
+            tg.sendData(JSON.stringify(dataToSend));
+            
+            tg.MainButton.showProgress();
+            setTimeout(() => tg.close(), 500);
         });
     </script>
 </body>
